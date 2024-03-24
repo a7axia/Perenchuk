@@ -69,7 +69,6 @@ sagecell.makeSagecell({inputLocation: 'div.compute',
     <script type="text/x-sage">
 from sage.misc.html import HtmlFragment
 
-
 def extended_matrix_as_latex(A):
     M = A[:, :-1]
     b = A.column(-1)
@@ -117,6 +116,7 @@ def _(n=slider(1, 10, 1, 3)):
     <script type="text/x-sage">
         
 from sage.misc.html import HtmlFragment
+
 def extended_matrix_as_latex(A):
             M = A[:, :-1]
             b = A.column(-1)
@@ -188,6 +188,7 @@ def _(n = slider(1,10,1,3)):
 <div class="compute"><script type="text/x-sage">
 
 from sage.misc.html import HtmlFragment
+
 def extended_matrix_as_latex(A):
             M = A[:, :-1]
             b = A.column(-1)
