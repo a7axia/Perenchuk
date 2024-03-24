@@ -2,7 +2,7 @@
 
 ## Authors
 
-- Maksym Perenchuk [@octokatherine](https://www.github.com/octokatherine)
+- Maksym Perenchuk [@a7axia](https://github.com/a7axia)
 
 ## Support
 V prípade akýchkoľvek otázok alebo pripomienok kontaktujte na adrese maksym.perenchuk@student.tuke.sk
