@@ -11,11 +11,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SageMathCell</title>
+<title>FEI KEMT SageMathCell</title>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
+
+
 
 body {
   font-family: Arial;
@@ -61,12 +63,17 @@ sagecell.makeSagecell({inputLocation: 'div.compute',
                        evalButtonText: 'Evaluate'});
 </script>
 </head>
+
+<link rel="icon" href=
+"https://startupcentrum.tuke.sk/wp-content/uploads/2020/07/TUKE_ZNAK_B_CMYK.png"
+          type="image/x-icon">
+
 <body>
 <div class="container">
-<h1>KMTI SageMathCell</h1>
+<h1>Webová stránka na riešenie sústavy lineárnych rovníc pomocou SageMathCell</h1>
 
 <div>
-    <p>Ku každej sústave lineárných rovníc môžeme priradiť nasledujúce matice:</p>
+    <p>Ku každej sústave lineárnych rovníc môžeme priradiť nasledujúce matice:</p>
   
     <div>
       \[
@@ -169,6 +176,8 @@ Z toho vyplýva, že:
 			b_n & a_{n2} & \dots & a_{nn} \\
 		\end{array}
 	\end{equation}
+
+Pre nájdenie riešenia sústavy lineárnych rovníc použijeme vzorec $ x_i = \frac{\left| A_i \right|}{\left| A \right|}, i \in \mathbb{N}$    
 </div>
     </div>
 
