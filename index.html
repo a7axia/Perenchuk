@@ -172,78 +172,76 @@ Z toho vyplýva, že:
 </div>
     </div>
 
-
-<div class="compute">
-    <script type="text/x-sage">
-        
-        from sage.misc.html import HtmlFragment
-
-        def center(M):
-            nvars = M.ncols()
-            latex_text = (
-                r'$$\left(\begin{array}{%s}' % ('c' * nvars) +  
-                r'\\'.join(' & '.join('%s' % c for c in row) for row in M) +
-                r'\end{array}\right)$$'
-            )
-            return HtmlFragment(latex_text)
-        
-        def extended_matrix_as_latex(A):
-                    M = A[:, :-1]
-                    b = A.column(-1)
-                    nvars = M.ncols()
-                    display_text = (
-                        r'$$\left(\begin{array}{%s}' % ('r' * nvars + '|r') +
-                        r'\\'.join('%s&%s' % (
-                            ' & '.join('%s' % c for c in row),
-                            y) for row, y in zip(M, b)) +
-                        r'\end{array}\right)$$'
-                    )
-                    pretty_print(HtmlFragment(display_text))
-                    
-        pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet premenných (n)</div>'))            
-        @interact
-        def _(n = slider(1,10,1,3)):
-                    D = Integer(n)
-                    example = [[1 if k == j else 0 for k in range(D + 1)] for j in range(D)]
-                    example[0][-1] = 0
-                    example[-1][0] = 0
-                    pretty_print(HtmlFragment('<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy $(A|b)$</div>'))
-                    @interact
-                    def inner(A=input_grid(D, D + 1, default=example, label='$(A|b)$ =', to_value=matrix), auto_update=False):
-                        pretty_print(HtmlFragment('Rozšírená matica sústavy $(A|b)$'))
-                        extended_matrix_as_latex(A)
-                        det_A = A[:, :-1].det()
-                
-                        if det_A != 0:
-                            A_P = A[:, :-1]
-                            A_Det = A_P.det()
-                            pretty_print(HtmlFragment('Matica sústavy $A$:'))
-                            pretty_print(HtmlFragment('$|A| = %s$' % A_Det))
-                            print( )
-                            pretty_print(center(A_P))
-                            print( )
-        
-                            solutions = []
-                            for i in range(A_P.ncols()):
-                                A_temp = Matrix(A_P)
-                                A_temp[:, i] = A[:, -1]
-                                temp_det = A_temp.det()
-                                solutions.append(temp_det / A_Det)
-                                pretty_print(HtmlFragment("%s) $A_%s$ = matica, ktorá vznikne nahradením %s stĺpca v matici $A$ vektorom $b$, $|A_%s| = %s$:" % (i +1, i +1, i +1,
-                                i + 1, temp_det)))
-                                print( )
-                                pretty_print(center(A_temp))
-                                print( )
-                                pretty_print(HtmlFragment(
-                                    "Koreň č.%s $=$ $\\frac{%s}{%s}$" % (i + 1, temp_det, A_Det)))
-                                
-                            pretty_print(HtmlFragment("Riešenie SLR $=$ %s" % (solutions)))
-                        else:
-                            pretty_print(HtmlFragment("$|A| = %s$:" % (det_A)))
-                            pretty_print(HtmlFragment("SLR nemá jednoznačné riešenie."))
-                    
-</script></div>
-
+    <div class="compute">
+        <script type="text/x-sage">
+            from sage.misc.html import HtmlFragment
+    
+            def center(M):
+                nvars = M.ncols()
+                latex_text = (
+                    r'$$\left(\begin{array}{%s}' % ('c' * nvars) +
+                    r'\\'.join(' & '.join('%s' % c for c in row) for row in M) +
+                    r'\end{array}\right)$$'
+                )
+                return HtmlFragment(latex_text)
+    
+            def extended_matrix_as_latex(A):
+                M = A[:, :-1]
+                b = A.column(-1)
+                nvars = M.ncols()
+                display_text = (
+                    r'$$\left(\begin{array}{%s}' % ('r' * nvars + '|r') +
+                    r'\\'.join('%s&%s' % (
+                        ' & '.join('%s' % c for c in row),
+                        y) for row, y in zip(M, b)) +
+                    r'\end{array}\right)$$'
+                )
+                pretty_print(HtmlFragment(display_text))
+    
+            pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet premenných (n)</div>'))
+            @interact
+            def _(n=slider(1, 10, 1, 3)):
+                D = Integer(n)
+                example = [[1 if k == j else 0 for k in range(D + 1)] for j in range(D)]
+                example[0][-1] = 0
+                example[-1][0] = 0
+                pretty_print(HtmlFragment('<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy $(A|b)$</div>'))
+                @interact
+                def inner(A=input_grid(D, D + 1, default=example, label='$(A|b)$ =', to_value=matrix), auto_update=False):
+                    pretty_print(HtmlFragment('Rozšírená matica sústavy $(A|b)$'))
+                    extended_matrix_as_latex(A)
+                    det_A = A[:, :-1].det()
+    
+                    if det_A != 0:
+                        A_P = A[:, :-1]
+                        A_Det = A_P.det()
+                        pretty_print(HtmlFragment('Matica sústavy $A$:'))
+                        pretty_print(HtmlFragment('$|A| = %s$' % A_Det))
+                        print()
+                        pretty_print(center(A_P))
+                        print()
+    
+                        solutions = []
+                        for i in range(A_P.ncols()):
+                            A_temp = Matrix(A_P)
+                            A_temp[:, i] = A[:, -1]
+                            temp_det = A_temp.det()
+                            solutions.append(temp_det / A_Det)
+                            pretty_print(HtmlFragment("%s) $A_%s$ = matica, ktorá vznikne nahradením %s stĺpca v matici $A$ vektorom $b$, $|A_%s| = %s$:" % (i + 1, i + 1, i + 1,
+                            i + 1, temp_det)))
+                            print()
+                            pretty_print(center(A_temp))
+                            print()
+                            pretty_print(HtmlFragment(
+                                "Koreň č.%s $=$ $\\frac{%s}{%s}$" % (i + 1, temp_det, A_Det)))
+    
+                        pretty_print(HtmlFragment("Riešenie SLR $=$ %s" % (solutions)))
+                    else:
+                        pretty_print(HtmlFragment("$|A| = %s$:" % (det_A)))
+                        pretty_print(HtmlFragment("SLR nemá jednoznačné riešenie."))
+        </script>
+    </div>
+    
 
 <h2>Gaussova - Jordanova eliminačná metóda</h2>
 
