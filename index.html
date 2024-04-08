@@ -13,8 +13,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SageMathCell</title>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
-    
+
 body {
   font-family: Arial;
   margin: 0;
@@ -63,8 +65,37 @@ sagecell.makeSagecell({inputLocation: 'div.compute',
 <div class="container">
 <h1>KMTI SageMathCell</h1>
 
+<div>
+    <p>Ku každej sústave linearných rovnic môžeme priradiť nasledujúce matice:</p>
+  
+    <div>
+      \[
+      A = \begin{pmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn}
+      \end{pmatrix}
+      \]
+      matica typu \( m \times n \), ktorú nazývame <b>maticou sústavy</b>
+    </div>
+  
+    <div>
+      \[
+      (A|b) = \left(\begin{array}{cccc|c}
+        a_{11} & a_{12} & \cdots & a_{1n} & b_{1} \\
+        a_{21} & a_{22} & \cdots & a_{2n} & b_{2} \\
+        \vdots & \vdots & \ddots & \vdots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn} & b_{m}
+      \end{array}\right)
+      \]
+      alebo <b>rozšírenú maticu sústavy</b>, označovať budeme $(A|b)$
+    </div>
+  </div>
+  
 
 <h2>Funkcia solve()</h2>
+
 <div class="compute">
     <script type="text/x-sage">
 from sage.misc.html import HtmlFragment
@@ -98,6 +129,50 @@ def _(n=slider(1, 10, 1, 3)):
 
 
 <h2>Cramerovo pravidlo</h2>
+<div>
+    <p>Matici $A$ môžeme priradiť číslo, ktoré nazývame <b>determinant</b> matice $A$
+        a označujeme ho <b>$|A|$</b></p>
+
+        <div>
+            \begin{equation} 
+            |A| = 
+            \left|
+            \begin{array}{cccc} 
+                a_{11} & a_{12} & \cdots & a_{1n} \\
+                a_{21} & a_{22} & \cdots & a_{2n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                a_{n1} & a_{n2} & \cdots & a_{nn}
+            \end{array}
+            \right|
+        \end{equation}
+          </div>
+
+          <p>$ A_i $ je matica, ktorá vznikne z matice sústavy $A$  tak, že $i$-tý stĺpec nahradíme stĺpcom pravých strán sústavy linearnych rovnic </p>
+          <div>
+          Pre $i=1$:
+	\begin{equation}
+		A_1 = \left(\begin{array}{cccc} 
+			b_1 & a_{12} & \dots & a_{1n} \\
+			b_2 & a_{22} & \dots & a_{2n} \\
+			\vdots & \vdots & \ddots & \vdots \\
+			b_n & a_{n2} & \dots & a_{nn} \\
+		\end{array}\right)
+	\end{equation}
+	
+Z toho vyplýva, že:
+	
+	\begin{equation}
+		|A_1| = \begin{array}{|cccc|} \label{eq:9}
+			b_1 & a_{12} & \dots & a_{1n} \\
+			b_2 & a_{22} & \dots & a_{2n} \\
+			\vdots & \vdots & \ddots & \vdots \\
+			b_n & a_{n2} & \dots & a_{nn} \\
+		\end{array}
+	\end{equation}
+</div>
+    </div>
+
+
 <div class="compute">
     <script type="text/x-sage">
         
@@ -162,6 +237,17 @@ def _(n = slider(1,10,1,3)):
 
 
 <h2>Gaussova - Jordanova eliminačná metóda</h2>
+
+<div>
+    <p><strong>Frobeniova veta</strong> - sústava linearnych rovníc má riešenie práve vtedy,  ak \(h(A) = h(A|b)\). V tom prípade:</p>
+    <ul>
+        <li>Ak \(h(A) = h(A|b) = n\) (počet neznámych v sústave), tak sústava má práve jedno riešenie.</li>
+        <li>Ak \(h(A) = h(A|b) < n\), tak sústava má nekonečne veľa riešení.</li>
+    </ul>
+    <p>Ak \(h(A) \neq h(A|b)\) sústava nemá riešenie.</p>
+</div>
+
+
 <div class="compute"><script type="text/x-sage">
 
 from sage.misc.html import HtmlFragment
