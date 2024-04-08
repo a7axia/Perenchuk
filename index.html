@@ -69,20 +69,6 @@ sagecell.makeSagecell({inputLocation: 'div.compute',
     <script type="text/x-sage">
 from sage.misc.html import HtmlFragment
 
-def extended_matrix_as_latex(A):
-    M = A[:, :-1]
-    b = A.column(-1)
-    nvars = M.ncols()
-    display_text = (
-        r'$$\left(\begin{array}{%s}' % ('r' * nvars + '|r') +
-        r'\\'.join('%s&%s' % (
-            ' & '.join('%s' % c for c in row),
-            y) for row, y in zip(M, b)) +
-        r'\end{array}\right)$$'
-    )
-    pretty_print(HtmlFragment(display_text))
-pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet premenných (n)</div>'))
-     
 @interact
 def _(n=slider(1, 10, 1, 3)): 
     D = Integer(n)
@@ -129,19 +115,7 @@ def extended_matrix_as_latex(A):
                 r'\end{array}\right)$$'
             )
             pretty_print(HtmlFragment(display_text))
- 
-def extended_matrix_as_latex2(A):
-            M = A[:, :-1]
-            b = A.column(-1)
-            nvars = M.ncols()
-            display_text = (
-                r'$$\left(\begin{array}{%s}' % ('r' * nvars + 'r') +
-                r'\\'.join('%s&%s' % (
-                    ' & '.join('%s' % c for c in row),
-                    y) for row, y in zip(M, b)) +
-                r'\end{array}\right)$$'
-            )
-            pretty_print(HtmlFragment(display_text))            
+            
 pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet premenných (n)</div>'))            
 @interact
 def _(n = slider(1,10,1,3)):
@@ -161,8 +135,9 @@ def _(n = slider(1,10,1,3)):
                     A_Det = A_P.det()
                     pretty_print(HtmlFragment('Matica sústavy $A$:'))
                     pretty_print(HtmlFragment('$|A| = %s$' % A_Det))
-                    extended_matrix_as_latex2(A_P)
-                    
+                    print( )
+                    show(A_P)
+                    print( )
 
                     solutions = []
                     for i in range(A_P.ncols()):
@@ -172,7 +147,9 @@ def _(n = slider(1,10,1,3)):
                         solutions.append(temp_det / A_Det)
                         pretty_print(HtmlFragment("%s) $A_%s$ = matica, ktorá vznikne nahradením %s stĺpca v matici $A$ vektorom $b$, $|A_%s| = %s$:" % (i +1, i +1, i +1,
                         i + 1, temp_det)))
-                        extended_matrix_as_latex2(A_temp)
+                        print( )
+                        show(A_temp)
+                        print( )
                         pretty_print(HtmlFragment(
                             "Koreň č.%s $=$ $\\frac{%s}{%s}$" % (i + 1, temp_det, A_Det)))
                         
@@ -202,18 +179,6 @@ def extended_matrix_as_latex(A):
             )
             pretty_print(HtmlFragment(display_text))
     
-def extended_matrix_as_latex2(A):
-            M = A[:, :-1]
-            b = A.column(-1)
-            nvars = M.ncols()
-            display_text = (
-                r'$$\left(\begin{array}{%s}' % ('r' * nvars + 'r') +
-                r'\\'.join('%s&%s' % (
-                    ' & '.join('%s' % c for c in row),
-                    y) for row, y in zip(M, b)) +
-                r'\end{array}\right)$$'
-            )
-            pretty_print(HtmlFragment(display_text))
 pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet premenných (n)</div>'))        
 @interact
 def _(n = slider(1,10,1,3)):
@@ -245,7 +210,7 @@ def _(n = slider(1,10,1,3)):
                 pretty_print(HtmlFragment('Upravená rozšírená matica sústavy po Gaussovej - Jordanovej eliminácii $(A|b)$:'))
                 extended_matrix_as_latex(A_J)
                 pretty_print(HtmlFragment('Matica $A$:'))
-                extended_matrix_as_latex2(AR_P)
+                show(AR_P)
                 pretty_print(HtmlFragment("$h(A|b)=$ {}".format(rank_A)))
                 pretty_print(HtmlFragment("$h(A)=$ {}".format(rank_A_P)))
                 pretty_print(HtmlFragment("Na základe Frobeniovej vety má sústava nekonečne veľa riešení.")) 
@@ -256,7 +221,7 @@ def _(n = slider(1,10,1,3)):
                 pretty_print(HtmlFragment('Upravená rozšírená matica sústavy po Gaussovej - Jordanovej eliminácii $(A|b)$:'))
                 extended_matrix_as_latex(A_J)
                 pretty_print(HtmlFragment('Matica $A$:'))
-                extended_matrix_as_latex2(AR_P)
+                show(AR_P)
                 pretty_print(HtmlFragment("$h(A|b)=$ {}".format(rank_A)))
                 pretty_print(HtmlFragment("$h(A)=$ {}".format(rank_A_P)))
                 pretty_print(HtmlFragment("Riešenie SLR: {}".format(solutions))) 
@@ -265,7 +230,7 @@ def _(n = slider(1,10,1,3)):
                 pretty_print(HtmlFragment('Upravená rozšírená matica sústavy po Gaussovej - Jordanovej eliminácii $(A|b)$:'))
                 extended_matrix_as_latex(A_J)
                 pretty_print(HtmlFragment('Matica $A$:'))
-                extended_matrix_as_latex2(AR_P)
+                show(AR_P)
                 pretty_print(HtmlFragment("$h(A|b)=$ {}".format(rank_A)))
                 pretty_print(HtmlFragment("$h(A)=$ {}".format(rank_A_P)))
                 pretty_print(HtmlFragment("Na základe Frobeniovej vety sústava nemá riešenie."))      
