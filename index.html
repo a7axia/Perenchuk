@@ -7,14 +7,11 @@
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 
-<!-- KaTeX Styles and Scripts -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
 
-
 <style>
-/* Your styles */
 body {
   font-family: Arial;
   margin: 0;
@@ -68,6 +65,26 @@ footer {
 <div class="container">
 <h1>Webová stránka na riešenie sústavy lineárnych rovníc pomocou SageMathCell</h1>
 
+Sústavu
+\begin{align}
+  a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n &= b_1 \label{eq:1}\\
+  a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n &= b_2 \nonumber\\
+  & \vdots \nonumber \\
+  a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n &= b_m \nonumber
+\end{align}
+nazývame <b>sústava lineárnych rovníc</b>, skrátene tiež <b>SLR</b>
+
+<p>Čísla \(a_{11}, \ldots, a_{mn}\) nazývame koeficienty sústavy, \(x_1, \ldots, x_n\) sú neznáme, \(b_1, \ldots, b_m\) nazývame jej pravou stranou.</p>
+
+<div>
+  <p>Sústavy lineárnych rovníc môžeme riešiť</p>
+  <ul>
+    <li>klasicky (úprava n – rovníc o n - neznámych) – funkcia solve,</li>
+    <li>pomocou Cramerovo pravidlo, kde používame pri riešení determninanty,</li>
+    <li>pomocou Gaussovej - Jordanovej eliminačnej metódy, kde používame úpravu matice na trojuholníkový tvar.</li>
+  </ul>
+</div>  
+
 <p>Ku každej sústave lineárnych rovníc môžeme priradiť nasledujúce matice:</p>
 \[
 A = \begin{pmatrix}
@@ -77,6 +94,7 @@ A = \begin{pmatrix}
   a_{m1} & a_{m2} & \cdots & a_{mn}
 \end{pmatrix}
 \]
+
 matica typu \( m \times n \), ktorú nazývame <b>maticou sústavy</b>
 
 \[
@@ -88,11 +106,25 @@ matica typu \( m \times n \), ktorú nazývame <b>maticou sústavy</b>
 \end{array}\right)
 \]
 alebo <b>rozšírenú maticu sústavy</b>, označovať budeme \((A|b)\)
+
+<p><b>Horna trojuholníková matica</b> - štvorcová matica typu \( n \times n \) s nulami pod hlavnou diagonálou, t. j. \( a_{ij} = 0 \), pre \( i > j \), \( i,j \in \{1,2,...,n\} \).</p>
+	
+	\begin{equation}
+		\label{eq:4}
+		A = \left(\begin{array}{cccc}
+			a_{11} & a_{12} & \cdots & a_{1n} \\
+			0 & a_{22} & \cdots & a_{2n} \\
+			\vdots & \ddots & \ddots & \vdots \\
+			0 & 0 & \cdots & a_{nn}
+		\end{array}\right)
+	\end{equation}
+
 <!-- .
 _______  _____         _    _ _______
 |______ |     | |       \  /  |______
 ______| |_____| |_____   \/   |______
 . -->
+
 <h2>Funkcia solve()</h2>
 
 <div class="compute">
@@ -100,6 +132,8 @@ ______| |_____| |_____   \/   |______
 from sage.misc.html import HtmlFragment
 
 pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet premenných (n)</div>'))
+
+
 @interact
 def _(n=slider(1, 10, 1, 3)): 
   D = Integer(n)
@@ -133,6 +167,7 @@ _______  ______ _______ _______ _______  ______
 |_____  |    \_ |     | |  |  | |______ |    \_
 . -->
 <h2>Cramerovo pravidlo</h2>
+
 <p>Matici \(A\) môžeme priradiť číslo, ktoré nazývame <b>determinant</b> matice $A$
   a označujeme ho $|A|$</p>
 \[
@@ -244,14 +279,16 @@ def _(n=slider(1, 10, 1, 3)):
             pretty_print(HtmlFragment("SLR nemá jednoznačné riešenie."))
 </script>
 </div>
+
 <!-- .
  ______ _______ _     _ _______ _______
 |  ____ |_____| |     | |______ |______
 |_____| |     | |_____| ______| ______|
 .                                       -->
+
 <h2>Gaussova - Jordanova eliminačná metóda</h2>
 <div>
-  <p>\(h(A)\) — hodnosť matice \(A\)</p>
+  <p>\(h(A)\) — hodnosť matice \(A\) = počet nenulových riadkov matice \(A\) alebo \(A|b\), teda \(h(A|b)\)  upravenej na trojuholníkový tvar.</p>
   <p><strong>Frobeniova veta</strong> — sústava lineárnych rovníc má riešenie práve vtedy,  ak \(h(A) = h(A|b)\). V tom prípade:</p>
   <ul>
       <li>Ak \(h(A) = h(A|b) = n\) (počet neznámych v sústave), tak sústava má práve jedno riešenie.</li>
@@ -259,12 +296,13 @@ def _(n=slider(1, 10, 1, 3)):
   </ul>
   <p>Ak \(h(A) \neq h(A|b)\) sústava nemá riešenie.</p>
 </div>
-<!-- .
-_______ _______  ______ _______
-|______ |_____| |  ____ |______
-______| |     | |_____| |______
-. -->
+  <!-- .
+    _______ _______  ______ _______
+    |______ |_____| |  ____ |______
+    ______| |     | |_____| |______
+    . -->
 <div class="compute"><script type="text/x-sage">
+
 from sage.misc.html import HtmlFragment
 
 def center(M):
@@ -305,7 +343,7 @@ def _(n = slider(1,10,1,3)):
         extended_matrix_as_latex(A)
             
         rank_A = A.rank()
-        #Výpočet hodnosti matice A
+        #Výpočet hodnosti matice A_parametrov
         A_P = A[:, :-1]
         AR_P = A_P.rref()
         rank_A_P = A_P.rank()
@@ -346,7 +384,7 @@ def _(n = slider(1,10,1,3)):
                 pretty_print(HtmlFragment("Na základe Frobeniovej vety sústava nemá riešenie."))      
 </script></div>
   
-</div>
+  </div>
 
 <footer>
 <p>2024 | Technická univerzita v Košiciach FEI KEMT | Maksym Perenchuk</p>
