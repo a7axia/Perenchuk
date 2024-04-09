@@ -88,7 +88,11 @@ matica typu \( m \times n \), ktorú nazývame <b>maticou sústavy</b>
 \end{array}\right)
 \]
 alebo <b>rozšírenú maticu sústavy</b>, označovať budeme \((A|b)\)
-
+<!-- .
+_______  _____         _    _ _______
+|______ |     | |       \  /  |______
+______| |_____| |_____   \/   |______
+. -->
 <h2>Funkcia solve()</h2>
 
 <div class="compute">
@@ -96,8 +100,6 @@ alebo <b>rozšírenú maticu sústavy</b>, označovať budeme \((A|b)\)
 from sage.misc.html import HtmlFragment
 
 pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet premenných (n)</div>'))
-
-
 @interact
 def _(n=slider(1, 10, 1, 3)): 
   D = Integer(n)
@@ -125,7 +127,11 @@ def _(n=slider(1, 10, 1, 3)):
       else:
           pretty_print(HtmlFragment("Sústava nemá riešenie."))
 </script></div>
-
+<!-- .
+_______  ______ _______ _______ _______  ______
+|       |_____/ |_____| |  |  | |______ |_____/
+|_____  |    \_ |     | |  |  | |______ |    \_
+. -->
 <h2>Cramerovo pravidlo</h2>
 <p>Matici \(A\) môžeme priradiť číslo, ktoré nazývame <b>determinant</b> matice $A$
   a označujeme ho $|A|$</p>
@@ -163,7 +169,11 @@ Z toho vyplýva, že:
 	\end{equation}
 
 <p>Pre nájdenie riešenia sústavy lineárnych rovníc použijeme vzorec $x_i = \frac{\left| A_i \right|}{\left| A \right|}, i \in \mathbb{N}$</p>  
-
+<!-- .
+_______ _______  ______ _______
+|______ |_____| |  ____ |______
+______| |     | |_____| |______
+. -->
 <div class="compute">
   <script type="text/x-sage">
 from sage.misc.html import HtmlFragment
@@ -234,7 +244,11 @@ def _(n=slider(1, 10, 1, 3)):
             pretty_print(HtmlFragment("SLR nemá jednoznačné riešenie."))
 </script>
 </div>
-
+<!-- .
+ ______ _______ _     _ _______ _______
+|  ____ |_____| |     | |______ |______
+|_____| |     | |_____| ______| ______|
+.                                       -->
 <h2>Gaussova - Jordanova eliminačná metóda</h2>
 <div>
   <p>\(h(A)\) — hodnosť matice \(A\)</p>
@@ -245,9 +259,12 @@ def _(n=slider(1, 10, 1, 3)):
   </ul>
   <p>Ak \(h(A) \neq h(A|b)\) sústava nemá riešenie.</p>
 </div>
-
+<!-- .
+_______ _______  ______ _______
+|______ |_____| |  ____ |______
+______| |     | |_____| |______
+. -->
 <div class="compute"><script type="text/x-sage">
-
 from sage.misc.html import HtmlFragment
 
 def center(M):
@@ -329,7 +346,7 @@ def _(n = slider(1,10,1,3)):
                 pretty_print(HtmlFragment("Na základe Frobeniovej vety sústava nemá riešenie."))      
 </script></div>
   
-  </div>
+</div>
 
 <footer>
 <p>2024 | Technická univerzita v Košiciach FEI KEMT | Maksym Perenchuk</p>
