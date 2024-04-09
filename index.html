@@ -1,11 +1,3 @@
-<!-- Pouzite zdroje: -->
-
-<!-- 1. Ako vytvorit HTML stranku a pripojiť ju ku SageMath serveru  -->
-<!-- https://sagecell.sagemath.org/static/about.html?v=9cdf308ed88aa031fc0567a0581ac3a3 -->
-
-<!-- 2. Ako pridať slider, imputacia matice, a zovrazenie v .tex tvare  -->
-<!-- https://wiki.sagemath.org/interact/linear_algebra -->
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -14,11 +6,15 @@
 <title>FEI KEMT SageMathCell</title>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- KaTeX Styles and Scripts -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
 <style>
-
-
-
+/* Your styles */
 body {
   font-family: Arial;
   margin: 0;
@@ -53,110 +49,99 @@ footer {
   width: 100%;
 }
 </style>
+
 <script>
-// Make the div with id 'mycell' a Sage cell
-sagecell.makeSagecell({inputLocation:  '#mycell',
-                       template:       sagecell.templates.minimal,
-                       evalButtonText: 'Activate'});
-// Make *any* div with class 'compute' a Sage cell
-sagecell.makeSagecell({inputLocation: 'div.compute',
-                       evalButtonText: 'Evaluate'});
-</script>
+  // Make the div with id 'mycell' a Sage cell
+  sagecell.makeSagecell({inputLocation:  '#mycell',
+                         template:       sagecell.templates.minimal,
+                         evalButtonText: 'Activate'});
+  // Make *any* div with class 'compute' a Sage cell
+  sagecell.makeSagecell({inputLocation: 'div.compute',
+                         evalButtonText: 'Evaluate'});
+  </script>
+
 </head>
 
-<link rel="icon" href=
-"https://startupcentrum.tuke.sk/wp-content/uploads/2020/07/TUKE_ZNAK_B_CMYK.png"
-          type="image/x-icon">
+<link rel="icon" href="https://startupcentrum.tuke.sk/wp-content/uploads/2020/07/TUKE_ZNAK_B_CMYK.png" type="image/x-icon">
 
 <body>
 <div class="container">
 <h1>Webová stránka na riešenie sústavy lineárnych rovníc pomocou SageMathCell</h1>
 
-<div>
-    <p>Ku každej sústave lineárnych rovníc môžeme priradiť nasledujúce matice:</p>
-  
-    <div>
-      \[
-      A = \begin{pmatrix}
-        a_{11} & a_{12} & \cdots & a_{1n} \\
-        a_{21} & a_{22} & \cdots & a_{2n} \\
-        \vdots & \vdots & \ddots & \vdots \\
-        a_{m1} & a_{m2} & \cdots & a_{mn}
-      \end{pmatrix}
-      \]
-      matica typu \( m \times n \), ktorú nazývame <b>maticou sústavy</b>
-    </div>
-  
-    <div>
-      \[
-      (A|b) = \left(\begin{array}{cccc|c}
-        a_{11} & a_{12} & \cdots & a_{1n} & b_{1} \\
-        a_{21} & a_{22} & \cdots & a_{2n} & b_{2} \\
-        \vdots & \vdots & \ddots & \vdots & \vdots \\
-        a_{m1} & a_{m2} & \cdots & a_{mn} & b_{m}
-      \end{array}\right)
-      \]
-      alebo <b>rozšírenú maticu sústavy</b>, označovať budeme \((A|b)\)
-    </div>
-  </div>
-  
+<p>Ku každej sústave lineárnych rovníc môžeme priradiť nasledujúce matice:</p>
+\[
+A = \begin{pmatrix}
+  a_{11} & a_{12} & \cdots & a_{1n} \\
+  a_{21} & a_{22} & \cdots & a_{2n} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{pmatrix}
+\]
+matica typu \( m \times n \), ktorú nazývame <b>maticou sústavy</b>
+
+\[
+(A|b) = \left(\begin{array}{cccc|c}
+  a_{11} & a_{12} & \cdots & a_{1n} & b_{1} \\
+  a_{21} & a_{22} & \cdots & a_{2n} & b_{2} \\
+  \vdots & \vdots & \ddots & \vdots & \vdots \\
+  a_{m1} & a_{m2} & \cdots & a_{mn} & b_{m}
+\end{array}\right)
+\]
+alebo <b>rozšírenú maticu sústavy</b>, označovať budeme \((A|b)\)
 
 <h2>Funkcia solve()</h2>
 
 <div class="compute">
-    <script type="text/x-sage">
+  <script type="text/x-sage">
 from sage.misc.html import HtmlFragment
+
+pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet premenných (n)</div>'))
+
 
 @interact
 def _(n=slider(1, 10, 1, 3)): 
-    D = Integer(n)
-    example = [[1 if k == j else 0 for k in range(D + 1)] for j in range(D)]
-    example[0][-1] = 0
-    example[-1][0] = 0
-    pretty_print(HtmlFragment('<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy \((A|b))\</div>'))
-    
-    #Reťazec písmen veľkosti matice
-    var_list = ','.join(chr(97 + i) for i in range(D))
+  D = Integer(n)
+  example = [[1 if k == j else 0 for k in range(D + 1)] for j in range(D)]
+  example[0][-1] = 0
+  example[-1][0] = 0
+  pretty_print(HtmlFragment(r'<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy \((A|b)\)</div>'))
 
-    @interact
-    def inner(A=input_grid(D, D + 1, default=example, label='$(A|b)$ =', to_value=matrix), auto_update=False):
-        var(var_list)
-        eqs = []
-        pretty_print(HtmlFragment('Sústava lineárnych rovníc (SLR)'))
-        for i in range(D):
-            eq = sum([A[i][j] * var(chr(97 + j)) for j in range(D)]) == A[i][-1]
-            show(eq)            
-            eqs.append(eq)   
-        solutions = solve(eqs, [var(chr(97 + i)) for i in range(D)])  # Solve the system of equations dynamically
-        if solutions:
-            pretty_print(HtmlFragment("Riešenie SLR $=$ %s" % (solutions)))
-        else:
-            pretty_print(HtmlFragment("Sústava nemá riešenie."))
+  
+  #Reťazec písmen veľkosti matice
+  var_list = ','.join(chr(97 + i) for i in range(D))
+
+  @interact
+  def inner(A=input_grid(D, D + 1, default=example, label='$(A|b)$ =', to_value=matrix), auto_update=False):
+      var(var_list)
+      eqs = []
+      pretty_print(HtmlFragment('Sústava lineárnych rovníc (SLR)'))
+      for i in range(D):
+          eq = sum([A[i][j] * var(chr(97 + j)) for j in range(D)]) == A[i][-1]
+          show(eq)            
+          eqs.append(eq)   
+      solutions = solve(eqs, [var(chr(97 + i)) for i in range(D)])  # Solve the system of equations dynamically
+      if solutions:
+          pretty_print(HtmlFragment("Riešenie SLR $=$ %s" % (solutions)))
+      else:
+          pretty_print(HtmlFragment("Sústava nemá riešenie."))
 </script></div>
 
-
 <h2>Cramerovo pravidlo</h2>
-<div>
-    <p>Matici \(A\) môžeme priradiť číslo, ktoré nazývame <b>determinant</b> matice $A$
-        a označujeme ho $|A|$</p>
+<p>Matici \(A\) môžeme priradiť číslo, ktoré nazývame <b>determinant</b> matice $A$
+  a označujeme ho $|A|$</p>
+\[
+|A| = \left|
+\begin{array}{cccc} 
+  a_{11} & a_{12} & \cdots & a_{1n} \\
+  a_{21} & a_{22} & \cdots & a_{2n} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{array}
+\right|
+\]
+<p>$A_i$ je matica, ktorá vznikne z matice sústavy $A$  tak, že $i$-tý stĺpec nahradíme stĺpcom pravých strán sústavy lineárnych rovníc </p>
 
-        <div>
-            \begin{equation} 
-            |A| = 
-            \left|
-            \begin{array}{cccc} 
-                a_{11} & a_{12} & \cdots & a_{1n} \\
-                a_{21} & a_{22} & \cdots & a_{2n} \\
-                \vdots & \vdots & \ddots & \vdots \\
-                a_{n1} & a_{n2} & \cdots & a_{nn}
-            \end{array}
-            \right|
-        \end{equation}
-          </div>
-
-          <p>$A_i$ je matica, ktorá vznikne z matice sústavy $A$  tak, že $i$-tý stĺpec nahradíme stĺpcom pravých strán sústavy lineárnych rovníc </p>
-          <div>
-          Pre $i=1$:
+Pre $i=1$:
 	\begin{equation}
 		A_1 = \left(\begin{array}{cccc} 
 			b_1 & a_{12} & \dots & a_{1n} \\
@@ -178,11 +163,9 @@ Z toho vyplýva, že:
 	\end{equation}
 
 <p>Pre nájdenie riešenia sústavy lineárnych rovníc použijeme vzorec $x_i = \frac{\left| A_i \right|}{\left| A \right|}, i \in \mathbb{N}$</p>  
-</div>
-    </div>
 
 <div class="compute">
-<script type="text/x-sage">
+  <script type="text/x-sage">
 from sage.misc.html import HtmlFragment
 
 def center(M):
@@ -208,13 +191,14 @@ def extended_matrix_as_latex(A):
     pretty_print(HtmlFragment(display_text))
 
 pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet premenných (n)</div>'))
+
 @interact
 def _(n=slider(1, 10, 1, 3)):
     D = Integer(n)
     example = [[1 if k == j else 0 for k in range(D + 1)] for j in range(D)]
     example[0][-1] = 0
     example[-1][0] = 0
-    pretty_print(HtmlFragment('<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy $(A|b)$</div>'))
+    pretty_print(HtmlFragment(r'<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy \((A|b)\)</div>'))
     @interact
     def inner(A=input_grid(D, D + 1, default=example, label='$(A|b)$ =', to_value=matrix), auto_update=False):
         pretty_print(HtmlFragment('Rozšírená matica sústavy $(A|b)$'))
@@ -250,20 +234,17 @@ def _(n=slider(1, 10, 1, 3)):
             pretty_print(HtmlFragment("SLR nemá jednoznačné riešenie."))
 </script>
 </div>
-    
 
 <h2>Gaussova - Jordanova eliminačná metóda</h2>
-
 <div>
-    <p>\(h(A)\) — hodnosť matice \(A\)</p>
-    <p><strong>Frobeniova veta</strong> — sústava lineárnych rovníc má riešenie práve vtedy,  ak \(h(A) = h(A|b)\). V tom prípade:</p>
-    <ul>
-        <li>Ak \(h(A) = h(A|b) = n\) (počet neznámych v sústave), tak sústava má práve jedno riešenie.</li>
-        <li>Ak \(h(A) = h(A|b) < n\), tak sústava má nekonečne veľa riešení.</li>
-    </ul>
-    <p>Ak \(h(A) \neq h(A|b)\) sústava nemá riešenie.</p>
+  <p>\(h(A)\) — hodnosť matice \(A\)</p>
+  <p><strong>Frobeniova veta</strong> — sústava lineárnych rovníc má riešenie práve vtedy,  ak \(h(A) = h(A|b)\). V tom prípade:</p>
+  <ul>
+      <li>Ak \(h(A) = h(A|b) = n\) (počet neznámych v sústave), tak sústava má práve jedno riešenie.</li>
+      <li>Ak \(h(A) = h(A|b) < n\), tak sústava má nekonečne veľa riešení.</li>
+  </ul>
+  <p>Ak \(h(A) \neq h(A|b)\) sústava nemá riešenie.</p>
 </div>
-
 
 <div class="compute"><script type="text/x-sage">
 
@@ -295,7 +276,7 @@ pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet preme
 @interact
 def _(n = slider(1,10,1,3)):
     D = Integer(n)
-    pretty_print(HtmlFragment('<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy $(A|b)$</div>'))        
+    pretty_print(HtmlFragment(r'<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy \((A|b)\)</div>'))        
     example = [[1 if k == j else 0 for k in range(D+1)] for j in range(D)]
     example[0][-1] = 0
     example[-1][0] = 0
@@ -347,11 +328,11 @@ def _(n = slider(1,10,1,3)):
                 pretty_print(HtmlFragment("$h(A)=$ {}".format(rank_A_P)))
                 pretty_print(HtmlFragment("Na základe Frobeniovej vety sústava nemá riešenie."))      
 </script></div>
-
-</div>
+  
+  </div>
 
 <footer>
-    <p>2024 | Technická univerzita v Košiciach FEI KEMT | Maksym Perenchuk</p>
+<p>2024 | Technická univerzita v Košiciach FEI KEMT | Maksym Perenchuk</p>
 </footer>
 
 </body>
