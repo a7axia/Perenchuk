@@ -113,7 +113,7 @@ def _(n=slider(1, 10, 1, 3)):
     example = [[1 if k == j else 0 for k in range(D + 1)] for j in range(D)]
     example[0][-1] = 0
     example[-1][0] = 0
-    pretty_print(HtmlFragment('<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy $(A|b)$</div>'))
+    pretty_print(HtmlFragment('<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy \((A|b))\</div>'))
     
     #Reťazec písmen veľkosti matice
     var_list = ','.join(chr(97 + i) for i in range(D))
@@ -138,7 +138,7 @@ def _(n=slider(1, 10, 1, 3)):
 <h2>Cramerovo pravidlo</h2>
 <div>
     <p>Matici \(A\) môžeme priradiť číslo, ktoré nazývame <b>determinant</b> matice \(A)\
-        a označujeme ho <b>$|A|$</b></p>
+        a označujeme ho <b>\(|A|)\</b></p>
 
         <div>
             \begin{equation} 
