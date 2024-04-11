@@ -227,15 +227,14 @@ def _(n = slider(1,10,1,3)):
         pretty_print(HtmlFragment('Rozšírená matica sústavy $(A|b)$'))
         extended_matrix_as_latex(A)
             
-        rank_A = A.rank()
         A_P = A[:, :-1]
         AR_P = A_P.rref()
-        rank_A_P = A_P.rank()
-    
-        #Počet neznámych
-        n_nez = A.ncols() - 1
         A_J = A.rref()
-            
+
+        rank_A = A.rank()
+        rank_A_P = A_P.rank()
+
+        n_nez = A.ncols() - 1
             
         if rank_A == rank_A_P:
             if rank_A < n_nez:               
