@@ -226,16 +226,15 @@ def _(n = slider(1,10,1,3)):
             
         pretty_print(HtmlFragment('Rozšírená matica sústavy $(A|b)$'))
         extended_matrix_as_latex(A)
-            
+
         A_P = A[:, :-1]
         AR_P = A_P.rref()
         A_J = A.rref()
-
         rank_A = A.rank()
         rank_A_P = A_P.rank()
+        n_nez = A_P.ncols() 
 
-        n_nez = A.ncols() - 1
-            
+                        
         if rank_A == rank_A_P:
             if rank_A < n_nez:               
                 pretty_print(HtmlFragment('Upravená rozšírená matica sústavy po Gaussovej - Jordanovej eliminácii $(A|b)$:'))
@@ -247,8 +246,8 @@ def _(n = slider(1,10,1,3)):
                 pretty_print(HtmlFragment("Na základe Frobeniovej vety má sústava nekonečne veľa riešení.")) 
             else:               
                 solutions = []
-                for i in range(A.ncols() - 1):
-                    solutions.append(A_J[i, A.ncols() - 1])
+                for i in range(n_nez):
+                    solutions.append(A_J[i, n_nez])
                 pretty_print(HtmlFragment('Upravená rozšírená matica sústavy po Gaussovej - Jordanovej eliminácii $(A|b)$:'))
                 extended_matrix_as_latex(A_J)
                 pretty_print(HtmlFragment('Matica $A$:'))
@@ -264,7 +263,7 @@ def _(n = slider(1,10,1,3)):
                 pretty_print(center(AR_P))
                 pretty_print(HtmlFragment("$h(A|b)=$ {}".format(rank_A)))
                 pretty_print(HtmlFragment("$h(A)=$ {}".format(rank_A_P)))
-                pretty_print(HtmlFragment("Na základe Frobeniovej vety sústava nemá riešenie."))      
+                pretty_print(HtmlFragment("Na základe Frobeniovej vety sústava nemá riešenie."))  
 </script></div>
 <!-- .
 _______  ______ _______ _______ _______  ______
