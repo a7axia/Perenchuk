@@ -171,6 +171,109 @@ def _(n=slider(1, 10, 1, 3)):
           pretty_print(HtmlFragment("Sústava nemá riešenie."))
 </script></div>
 <!-- .
+ ______ _______ _     _ _______ _______
+|  ____ |_____| |     | |______ |______
+|_____| |     | |_____| ______| ______|
+.                                       -->
+
+<h2>Gaussova - Jordanova eliminačná metóda</h2>
+<div>
+  <p>\(h(A)\) — hodnosť matice \(A\) = počet nenulových riadkov matice \(A\) alebo \(A|b\), teda \(h(A|b)\)  upravenej na trojuholníkový tvar.</p>
+  <p><strong>Frobeniova veta</strong> — sústava lineárnych rovníc má riešenie práve vtedy,  ak \(h(A) = h(A|b)\). V tom prípade:</p>
+  <ul>
+      <li>Ak \(h(A) = h(A|b) = n\) (počet neznámych v sústave), tak sústava má práve jedno riešenie.</li>
+      <li>Ak \(h(A) = h(A|b) < n\), tak sústava má nekonečne veľa riešení.</li>
+  </ul>
+  <p>Ak \(h(A) \neq h(A|b)\) sústava nemá riešenie.</p>
+</div>
+  <!-- .
+    _______ _______  ______ _______
+    |______ |_____| |  ____ |______
+    ______| |     | |_____| |______
+    . -->
+<div class="compute"><script type="text/x-sage">
+
+from sage.misc.html import HtmlFragment
+
+def center(M):
+    nvars = M.ncols()
+    latex_text = (
+        r'$$\left(\begin{array}{%s}' % ('c' * nvars) +
+        r'\\'.join(' & '.join('%s' % c for c in row) for row in M) +
+        r'\end{array}\right)$$'
+    )
+    return HtmlFragment(latex_text)
+
+def extended_matrix_as_latex(A):
+            M = A[:, :-1]
+            b = A.column(-1)
+            nvars = M.ncols()
+            display_text = (
+                r'$$\left(\begin{array}{%s}' % ('r' * nvars + '|r') +
+                r'\\'.join('%s&%s' % (
+                    ' & '.join('%s' % c for c in row),
+                    y) for row, y in zip(M, b)) +
+                r'\end{array}\right)$$'
+            )
+            pretty_print(HtmlFragment(display_text))
+    
+pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet premenných (n)</div>'))        
+@interact
+def _(n = slider(1,10,1,3)):
+    D = Integer(n)
+    pretty_print(HtmlFragment(r'<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy \((A|b)\)</div>'))        
+    example = [[1 if k == j else 0 for k in range(D+1)] for j in range(D)]
+    example[0][-1] = 0
+    example[-1][0] = 0
+        
+    @interact
+    def inner(A=input_grid(D, D+1, default=example, label='$(A|b)$ =', to_value=matrix),auto_update=False):
+            
+        pretty_print(HtmlFragment('Rozšírená matica sústavy $(A|b)$'))
+        extended_matrix_as_latex(A)
+            
+        rank_A = A.rank()
+        #Výpočet hodnosti matice A_parametrov
+        A_P = A[:, :-1]
+        AR_P = A_P.rref()
+        rank_A_P = A_P.rank()
+    
+        #Počet neznámych
+        n_nez = A.ncols() - 1
+        A_J = A.rref()
+            
+            
+        if rank_A == rank_A_P:
+            if rank_A < n_nez:               
+                pretty_print(HtmlFragment('Upravená rozšírená matica sústavy po Gaussovej - Jordanovej eliminácii $(A|b)$:'))
+                extended_matrix_as_latex(A_J)
+                pretty_print(HtmlFragment('Matica $A$:'))
+                pretty_print(center(AR_P))
+                pretty_print(HtmlFragment("$h(A|b)=$ {}".format(rank_A)))
+                pretty_print(HtmlFragment("$h(A)=$ {}".format(rank_A_P)))
+                pretty_print(HtmlFragment("Na základe Frobeniovej vety má sústava nekonečne veľa riešení.")) 
+            else:               
+                solutions = []
+                for i in range(A.ncols() - 1):
+                    solutions.append(A_J[i, A.ncols() - 1])
+                pretty_print(HtmlFragment('Upravená rozšírená matica sústavy po Gaussovej - Jordanovej eliminácii $(A|b)$:'))
+                extended_matrix_as_latex(A_J)
+                pretty_print(HtmlFragment('Matica $A$:'))
+                pretty_print(center(AR_P))
+                pretty_print(HtmlFragment("$h(A|b)=$ {}".format(rank_A)))
+                pretty_print(HtmlFragment("$h(A)=$ {}".format(rank_A_P)))
+                pretty_print(HtmlFragment("Riešenie SLR: {}".format(solutions))) 
+                    
+        else:           
+                pretty_print(HtmlFragment('Upravená rozšírená matica sústavy po Gaussovej - Jordanovej eliminácii $(A|b)$:'))
+                extended_matrix_as_latex(A_J)
+                pretty_print(HtmlFragment('Matica $A$:'))
+                pretty_print(center(AR_P))
+                pretty_print(HtmlFragment("$h(A|b)=$ {}".format(rank_A)))
+                pretty_print(HtmlFragment("$h(A)=$ {}".format(rank_A_P)))
+                pretty_print(HtmlFragment("Na základe Frobeniovej vety sústava nemá riešenie."))      
+</script></div>
+<!-- .
 _______  ______ _______ _______ _______  ______
 |       |_____/ |_____| |  |  | |______ |_____/
 |_____  |    \_ |     | |  |  | |______ |    \_
@@ -287,112 +390,7 @@ def _(n=slider(1, 10, 1, 3)):
             pretty_print(HtmlFragment("$|A| = %s$:" % (det_A)))
             pretty_print(HtmlFragment("SLR nemá jednoznačné riešenie."))
 </script>
-</div>
-
-<!-- .
- ______ _______ _     _ _______ _______
-|  ____ |_____| |     | |______ |______
-|_____| |     | |_____| ______| ______|
-.                                       -->
-
-<h2>Gaussova - Jordanova eliminačná metóda</h2>
-<div>
-  <p>\(h(A)\) — hodnosť matice \(A\) = počet nenulových riadkov matice \(A\) alebo \(A|b\), teda \(h(A|b)\)  upravenej na trojuholníkový tvar.</p>
-  <p><strong>Frobeniova veta</strong> — sústava lineárnych rovníc má riešenie práve vtedy,  ak \(h(A) = h(A|b)\). V tom prípade:</p>
-  <ul>
-      <li>Ak \(h(A) = h(A|b) = n\) (počet neznámych v sústave), tak sústava má práve jedno riešenie.</li>
-      <li>Ak \(h(A) = h(A|b) < n\), tak sústava má nekonečne veľa riešení.</li>
-  </ul>
-  <p>Ak \(h(A) \neq h(A|b)\) sústava nemá riešenie.</p>
-</div>
-  <!-- .
-    _______ _______  ______ _______
-    |______ |_____| |  ____ |______
-    ______| |     | |_____| |______
-    . -->
-<div class="compute"><script type="text/x-sage">
-
-from sage.misc.html import HtmlFragment
-
-def center(M):
-    nvars = M.ncols()
-    latex_text = (
-        r'$$\left(\begin{array}{%s}' % ('c' * nvars) +
-        r'\\'.join(' & '.join('%s' % c for c in row) for row in M) +
-        r'\end{array}\right)$$'
-    )
-    return HtmlFragment(latex_text)
-
-def extended_matrix_as_latex(A):
-            M = A[:, :-1]
-            b = A.column(-1)
-            nvars = M.ncols()
-            display_text = (
-                r'$$\left(\begin{array}{%s}' % ('r' * nvars + '|r') +
-                r'\\'.join('%s&%s' % (
-                    ' & '.join('%s' % c for c in row),
-                    y) for row, y in zip(M, b)) +
-                r'\end{array}\right)$$'
-            )
-            pretty_print(HtmlFragment(display_text))
-    
-pretty_print(HtmlFragment('<div style="text-align: center;">Zvoľte počet premenných (n)</div>'))        
-@interact
-def _(n = slider(1,10,1,3)):
-    D = Integer(n)
-    pretty_print(HtmlFragment(r'<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy \((A|b)\)</div>'))        
-    example = [[1 if k == j else 0 for k in range(D+1)] for j in range(D)]
-    example[0][-1] = 0
-    example[-1][0] = 0
-        
-    @interact
-    def inner(A=input_grid(D, D+1, default=example, label='$(A|b)$ =', to_value=matrix),auto_update=False):
-            
-        pretty_print(HtmlFragment('Rozšírená matica sústavy $(A|b)$'))
-        extended_matrix_as_latex(A)
-            
-        rank_A = A.rank()
-        #Výpočet hodnosti matice A_parametrov
-        A_P = A[:, :-1]
-        AR_P = A_P.rref()
-        rank_A_P = A_P.rank()
-    
-        #Počet neznámych
-        n_nez = A.ncols() - 1
-        A_J = A.rref()
-            
-            
-        if rank_A == rank_A_P:
-            if rank_A < n_nez:               
-                pretty_print(HtmlFragment('Upravená rozšírená matica sústavy po Gaussovej - Jordanovej eliminácii $(A|b)$:'))
-                extended_matrix_as_latex(A_J)
-                pretty_print(HtmlFragment('Matica $A$:'))
-                pretty_print(center(AR_P))
-                pretty_print(HtmlFragment("$h(A|b)=$ {}".format(rank_A)))
-                pretty_print(HtmlFragment("$h(A)=$ {}".format(rank_A_P)))
-                pretty_print(HtmlFragment("Na základe Frobeniovej vety má sústava nekonečne veľa riešení.")) 
-            else:               
-                solutions = []
-                for i in range(A.ncols() - 1):
-                    solutions.append(A_J[i, A.ncols() - 1])
-                pretty_print(HtmlFragment('Upravená rozšírená matica sústavy po Gaussovej - Jordanovej eliminácii $(A|b)$:'))
-                extended_matrix_as_latex(A_J)
-                pretty_print(HtmlFragment('Matica $A$:'))
-                pretty_print(center(AR_P))
-                pretty_print(HtmlFragment("$h(A|b)=$ {}".format(rank_A)))
-                pretty_print(HtmlFragment("$h(A)=$ {}".format(rank_A_P)))
-                pretty_print(HtmlFragment("Riešenie SLR: {}".format(solutions))) 
-                    
-        else:           
-                pretty_print(HtmlFragment('Upravená rozšírená matica sústavy po Gaussovej - Jordanovej eliminácii $(A|b)$:'))
-                extended_matrix_as_latex(A_J)
-                pretty_print(HtmlFragment('Matica $A$:'))
-                pretty_print(center(AR_P))
-                pretty_print(HtmlFragment("$h(A|b)=$ {}".format(rank_A)))
-                pretty_print(HtmlFragment("$h(A)=$ {}".format(rank_A_P)))
-                pretty_print(HtmlFragment("Na základe Frobeniovej vety sústava nemá riešenie."))      
-</script></div>
-  
+</div>  
   </div>
 
 <footer>
