@@ -151,20 +151,15 @@ def _(n=slider(1, 10, 1, 3)):
   example[-1][0] = 0
   pretty_print(HtmlFragment(r'<div style="text-align: center;">Zadajte koeficienty rozšírenej matice sústavy \((A|b)\)</div>'))
 
-  
-  #Reťazec písmen veľkosti matice
-  var_list = ','.join(chr(97 + i) for i in range(D))
-
   @interact
   def inner(A=input_grid(D, D + 1, default=example, label='$(A|b)$ =', to_value=matrix), auto_update=False):
-      var(var_list)
       eqs = []
       pretty_print(HtmlFragment('Sústava lineárnych rovníc (SLR)'))
       for i in range(D):
           eq = sum([A[i][j] * var(chr(97 + j)) for j in range(D)]) == A[i][-1]
           show(eq)            
           eqs.append(eq)   
-      solutions = solve(eqs, [var(chr(97 + i)) for i in range(D)])  # Solve the system of equations dynamically
+      solutions = solve(eqs, [var(chr(97 + i)) for i in range(D)])  # Solve
       if solutions:
           pretty_print(HtmlFragment("Riešenie SLR $=$ %s" % (solutions)))
       else:
