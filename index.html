@@ -368,7 +368,7 @@ def _(n=slider(1, 10, 1, 3)):
                 A_temp[:, i] = A[:, -1]
                 temp_det = A_temp.det()
                 solutions.append(temp_det / det_A)
-                pretty_print(HtmlFragment("%s) $A_%s$ = matica, ktorá vznikne nahradením %s stĺpca v matici $A$ vektorom $b$, $|A_%s| = %s$:" % (i + 1, i + 1, i + 1,
+                pretty_print(HtmlFragment("%s) $A_%s$ = matica, ktorá vznikne nahradením %s stĺpca v matici $A$ vektorom $b$ (pravými stranami SLR), $|A_%s| = %s$:" % (i + 1, i + 1, i + 1,
                 i + 1, temp_det)))
                 print()
                 pretty_print(center(A_temp))
