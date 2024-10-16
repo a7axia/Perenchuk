@@ -4,5 +4,4 @@ https://a7axia.github.io/Perenchuk/
 
 - Maksym Perenchuk [@a7axia](https://github.com/a7axia)
 
-## Support
-V prípade akýchkoľvek otázok alebo pripomienok kontaktujte: maksym.perenchuk@student.tuke.sk
+
